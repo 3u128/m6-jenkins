@@ -1,5 +1,5 @@
 pipeline {
-    agent linux_oci
+    agent { node { label 'linux_oci' } }
     stages {
         stage('Build') {
             steps {
