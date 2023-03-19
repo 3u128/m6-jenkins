@@ -36,6 +36,10 @@ pipeline {
                                 mergeStrategy: "DEFAULT"
                                 ]
                         ],
+                      [
+                          $class: 'LocalBranch',
+                          localBranch: 'main'
+                      ]
                     ],
                     userRemoteConfigs: [[url: "https://github.com/${env.GITHUB_OWNER}/${env.REPO}.git"]]])
                 }
