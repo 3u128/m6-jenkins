@@ -30,7 +30,7 @@ pipeline {
                         ],
                         [$class: "PreBuildMerge",
                             options: [
-                                mergeTarget: "feature",
+                                mergeTarget: "main",
                                 fastForwardMode: "FF",
                                 mergeRemote: "origin",
                                 mergeStrategy: "DEFAULT"
@@ -42,7 +42,7 @@ pipeline {
                       // ]
                     ],
                     userRemoteConfigs: [[url: "https://github.com/${env.GITHUB_OWNER}/${env.REPO}.git"]]])
-                  sh 'git push origin'
+                  sh 'git push origin main'
                 }
  
                 failure {
