@@ -25,34 +25,36 @@ pipeline {
             }
             post {
                 success {
-                  // sh "curl -X POST https://api.github.com/repos/${env.OWNER}/${env.REPO}/branches/main/protection/enforce_admins -H 'Authorization: token ${env.TOKEN}'"
-                checkout scm: [
-                    $class: 'GitSCM',
-                    branches: [[name: "${env.BRANCH}"]],
-                      extensions: [
-                        $class: "PreBuildMerge",
-                        options: [
-                            mergeTarget: "main",
-                            fastForwardMode: "FF",
-                            mergeRemote: "origin",
-                            mergeStrategy: "OURS"
+                    // sh "curl -X POST https://api.github.com/repos/${env.OWNER}/${env.REPO}/branches/main/protection/enforce_admins -H 'Authorization: token ${env.TOKEN}'"
+                  checkout scm: [
+                      $class: 'GitSCM',
+                      branches: [[name: "${env.BRANCH}"]],
+                        extensions: [
+                          $class: "PreBuildMerge",
+                          options: [
+                              mergeTarget: "main",
+                              fastForwardMode: "FF",
+                              mergeRemote: "origin",
+                              mergeStrategy: "OURS"
+                          ],
+                          [
+                              $class: 'UserIdentity',
+                              email: 'ylytviak@gmail.com',
+                              name: 'Yevhen'
+                          ],
                         ],
-                        [
-                            $class: 'UserIdentity',
-                            email: 'user@company.com',
-                            name: 'user123'
-                        ],
-                      ],
-                    userRemoteConfigs: [[
-                        credentialsId: "${env.CREDS_REPO}",  //ENV
-                        url: "https://github.com/${env.GITHUB_OWNER}/${env.REPO}.git"
-                    ]]
-                ]
+                      userRemoteConfigs: [[
+                          credentialsId: "${env.CREDS_REPO}",  //ENV
+                          url: "https://github.com/${env.GITHUB_OWNER}/${env.REPO}.git"
+                      ]]
+                  ]
+                }
  
                 failure {
                   //
                   sh 'echo "failed"'
                 }
+              }
         }
-    }
+}
 }
