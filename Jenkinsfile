@@ -4,7 +4,7 @@ pipeline {
     environment {
         GITHUB_OWNER = "3u128"
         REPO = "m6-jenkins"
-        BRANCH = "feature"
+        BRANCH = "dev"
         CREDS_REPO = credentials('m6-jenkins')
         // TOKEN = credentials("github-secret-m6")
         // SLACK_CHANNEL = "#deployment-notifications"
@@ -22,7 +22,7 @@ pipeline {
             post {
                 success {
                   checkout([$class: 'GitSCM',
-                    branches: [[name: "${env.BRANCH}"]],
+                    branches: [[name: 'refs/heads/${env.BRANCH}']],
                     extensions: [
                         [$class: "UserIdentity",
                             name: "Yevhen Lytviak",
@@ -30,7 +30,7 @@ pipeline {
                         ],
                         [$class: "PreBuildMerge",
                             options: [
-                                mergeTarget: "main",
+                                mergeTarget: "feature",
                                 fastForwardMode: "FF",
                                 mergeRemote: "origin",
                                 mergeStrategy: "DEFAULT"
