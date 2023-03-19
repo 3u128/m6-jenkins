@@ -22,7 +22,7 @@ pipeline {
             post {
                 success {
                   checkout([$class: 'GitSCM',
-                    branches: [[name: 'refs/heads/${env.BRANCH}']],
+                    branches: [[name: "refs/heads/${env.BRANCH}"]],
                     extensions: [
                         [$class: "UserIdentity",
                             name: "Yevhen Lytviak",
