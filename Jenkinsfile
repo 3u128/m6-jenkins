@@ -32,7 +32,9 @@ pipeline {
                             options: [
                                 mergeTarget: "main",
                                 fastForwardMode: "FF",
-                                mergeRemote: "origin"                                ]
+                                mergeRemote: "origin",
+                                mergeStrategy: "DEFAULT"
+                                ]
                         ],
                     ],
                     userRemoteConfigs: [[url: "https://github.com/${env.GITHUB_OWNER}/${env.REPO}.git"]]])
