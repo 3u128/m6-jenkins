@@ -18,43 +18,30 @@ pipeline {
             steps {
                 sh 'echo "Hello World"'
                 sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
-
-                // if (currentBuild.result == 'FAILURE') {
-                //   sh "curl -X POST https://api.github.com/repos/${env.OWNER}/${env.REPO}/branches/main/protection/enforce_admins -H 'Authorization: token <token>'"
-                // }
             }
             post {
                 success {
-                    // sh "curl -X POST https://api.github.com/repos/${env.OWNER}/${env.REPO}/branches/main/protection/enforce_admins -H 'Authorization: token ${env.TOKEN}'"
-                  checkout scm: [
-                      $class: 'GitSCM',
-                      branches: [[name: "${env.BRANCH}"]],
-                        extensions: [
-                          $class: "PreBuildMerge",
-                          options: [
-                              mergeTarget: "main",
-                              fastForwardMode: "FF",
-                              mergeRemote: "origin",
-                              mergeStrategy: "OURS"
-                          ],
-                          [
-                              $class: 'UserIdentity',
-                              email: 'ylytviak@gmail.com',
-                              name: 'Yevhen'
-                          ],
+                  checkout([$class: 'GitSCM',
+                    branches: [[name: "${env.BRANCH}"]],
+                    extensions: [
+                        [$class: "UserIdentity",
+                            name: "Yevhen Lytviak",
+                            email: "ylytviak@gmail.com"
                         ],
-                      userRemoteConfigs: [[
-                          credentialsId: "${env.CREDS_REPO}",  //ENV
-                          url: "https://github.com/${env.GITHUB_OWNER}/${env.REPO}.git"
-                      ]]
-                  ]
+                        [$class: "PreBuildMerge",
+                            options: [
+                                mergeTarget: "main",
+                                fastForwardMode: "FF",
+                                mergeRemote: "origin"                                ]
+                        ],
+                    ],
+                    userRemoteConfigs: [[url: "https://github.com/${env.GITHUB_OWNER}/${env.REPO}.git"]]])
                 }
  
                 failure {
-                  //
-                  sh 'echo "failed"'
+                  sh 'echo failed'
                 }
               }
         }
-}
+    }
 }
