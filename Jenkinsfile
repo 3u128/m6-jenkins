@@ -36,10 +36,6 @@ pipeline {
                                 mergeStrategy: "DEFAULT"
                                 ]
                         ],
-                      [
-                          $class: 'LocalBranch',
-                          localBranch: '**'
-                      ]
                     ],
                     userRemoteConfigs: [[url: "https://github.com/${env.GITHUB_OWNER}/${env.REPO}.git"]]])
                   // sh "git checkout main" 
