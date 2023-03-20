@@ -21,25 +21,30 @@ pipeline {
             }
             post {
                 success {
-                  checkout([$class: 'GitSCM',
-                    branches: [[name: "refs/heads/${env.BRANCH}"]],
-                    extensions: [
-                        [$class: "UserIdentity",
-                            name: "Yevhen Lytviak",
-                            email: "ylytviak@gmail.com"
-                        ],
-                        [$class: "PreBuildMerge",
-                            options: [
-                                mergeTarget: "main",
-                                fastForwardMode: "FF",
-                                mergeRemote: "origin",
-                                mergeStrategy: "DEFAULT"
-                                ]
-                        ],
-                    ],
-                    userRemoteConfigs: [[url: "https://github.com/${env.GITHUB_OWNER}/${env.REPO}.git"]]])
-                  // sh "git checkout main" 
-                  sh 'git push origin HEAD:main'
+                  dir('merge') {
+                    checkout([$class: 'GitSCM',
+                      branches: [[name: "refs/heads/${env.BRANCH}"]],
+                      extensions: [
+                          [$class: 'CleanCheckout'],
+                          [$class: 'WipeWorkspace'],
+                          [$class: "UserIdentity",
+                              name: "Yevhen Lytviak",
+                              email: "ylytviak@gmail.com"
+                          ],
+                          [$class: "PreBuildMerge",
+                              options: [
+                                  mergeTarget: "main",
+                                  fastForwardMode: "FF",
+                                  mergeRemote: "origin",
+                                  mergeStrategy: "DEFAULT"
+                                  ]
+                          ],
+                      ],
+                      userRemoteConfigs: [[url: "https://github.com/${env.GITHUB_OWNER}/${env.REPO}.git"]]])
+                    // sh "git checkout main" 
+                    sh 'pwd'
+                    sh 'git push origin HEAD'
+                  }
                 }
  
                 failure {
