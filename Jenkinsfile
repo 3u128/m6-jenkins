@@ -22,6 +22,8 @@ pipeline {
             post {
                 success {
                   dir('merge') {
+                    sh 'git config --global credential.helper cache'
+                    sh 'git config --global push.default simple'
                     checkout([$class: 'GitSCM',
                       branches: [[name: "refs/heads/${env.BRANCH}"]],
                       extensions: [
