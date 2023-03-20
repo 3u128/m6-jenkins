@@ -25,8 +25,8 @@ pipeline {
                     checkout([$class: 'GitSCM',
                       branches: [[name: "refs/heads/${env.BRANCH}"]],
                       extensions: [
-                          [$class: 'CleanCheckout'],
-                          [$class: 'WipeWorkspace'],
+                          // [$class: 'CleanCheckout'],
+                          // [$class: 'WipeWorkspace'],
                           [$class: "UserIdentity",
                               name: "Yevhen Lytviak",
                               email: "ylytviak@gmail.com"
@@ -43,6 +43,7 @@ pipeline {
                       userRemoteConfigs: [[url: "https://github.com/${env.GITHUB_OWNER}/${env.REPO}.git"]]])
                     // sh "git checkout main" 
                     sh 'pwd'
+                    sh "git config --global user.email 'Yevhen'" && sh "git config --global user.name 'ylytviak@gmail.com'"
                     sh 'git push origin HEAD'
                   }
                 }
