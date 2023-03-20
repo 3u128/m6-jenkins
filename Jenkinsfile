@@ -45,7 +45,7 @@ pipeline {
                       userRemoteConfigs: [[url: "https://github.com/${env.GITHUB_OWNER}/${env.REPO}.git"]]])
                     // sh "git checkout main" 
                     sh 'pwd'
-                    // sh "git checkout ${branch}"
+                    sh 'git checkout main"'
                     sh "git config --global user.email 'Yevhen'"
                     sh "git config --global user.name 'ylytviak@gmail.com'"
                     sh 'git push origin HEAD'
