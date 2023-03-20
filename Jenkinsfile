@@ -39,7 +39,7 @@ pipeline {
                     ],
                     userRemoteConfigs: [[url: "https://github.com/${env.GITHUB_OWNER}/${env.REPO}.git"]]])
                   // sh "git checkout main" 
-                  sh 'git push'
+                  sh 'git push origin HEAD:main'
                 }
  
                 failure {
