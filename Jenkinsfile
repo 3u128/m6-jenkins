@@ -34,11 +34,12 @@ pipeline {
                     }'
                     """
                   }
-                }
+
  
                 failure {
                   sh 'echo failed'
                 }
-              }
+            }
         }
     }
+}
