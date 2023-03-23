@@ -21,34 +21,16 @@ pipeline {
             }
             post {
                 success {
-                  dir('merge') {
-                    sh 'git config --global credential.helper cache'
-                    sh 'git config --global push.default simple'
-                    checkout([$class: 'GitSCM',
-                      branches: [[name: "refs/heads/${env.BRANCH}"]],
-                      extensions: [
-                          // [$class: 'CleanCheckout'],
-                          // [$class: 'WipeWorkspace'],
-                          [$class: "UserIdentity",
-                              name: "Yevhen Lytviak",
-                              email: "ylytviak@gmail.com"
-                          ],
-                          [$class: "PreBuildMerge",
-                              options: [
-                                  mergeTarget: "main",
-                                  fastForwardMode: "FF",
-                                  mergeRemote: "origin",
-                                  mergeStrategy: "DEFAULT"
-                                  ]
-                          ],
-                      ],
-                      userRemoteConfigs: [[url: "https://github.com/${env.GITHUB_OWNER}/${env.REPO}.git"]]])
-                    // sh "git checkout main" 
-                    // sh 'pwd'
-                    // sh 'git checkout main"'
-                    sh "git config --global user.email 'Yevhen'"
-                    sh "git config --global user.name 'ylytviak@gmail.com'"
-                    sh 'git push origin HEAD'
+                    curl --request POST \
+                    --url https://api.github.com/repos/3u128/m6-jenkins/merges \
+                    --header 'authorization: token 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' \
+                    --header 'content-type: application/json' \
+                    --data '{
+                      "base": "main",
+                      "head": "dev",
+                      "commit_message": "curl merge"
+  }'
+
                   }
                 }
  
