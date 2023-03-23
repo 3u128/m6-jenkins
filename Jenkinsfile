@@ -1,3 +1,4 @@
+properties([pipelineTriggers([githubPush()])])
 pipeline {
     agent { node { label 'linux_oci' } }
     
@@ -5,8 +6,8 @@ pipeline {
         GITHUB_OWNER = "3u128"
         REPO = "m6-jenkins"
         BRANCH = "dev"
-        CREDS_REPO = credentials('m6-jenkins')
-        // TOKEN = credentials("github-secret-m6")
+        // CREDS_REPO = credentials('m6-jenkins')
+        TOKEN = credentials("github-secret-m6")
         // SLACK_CHANNEL = "#deployment-notifications"
         // SLACK_TEAM_DOMAIN = "MY-SLACK-TEAM"
         // SLACK_TOKEN = credentials("slack_token")
