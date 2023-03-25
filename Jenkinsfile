@@ -6,7 +6,7 @@ pipeline {
         GITHUB_OWNER = "3u128"
         REPO = "m6-jenkins"
         BRANCH = "dev"
-        // CREDS_REPO = credentials('m6-jenkins')
+        // CREDS_REPO = credentials('m6-github-secret')
         TOKEN = credentials("github-secret-m6")
         // SLACK_CHANNEL = "#deployment-notifications"
         // SLACK_TEAM_DOMAIN = "MY-SLACK-TEAM"
