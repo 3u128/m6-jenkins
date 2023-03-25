@@ -17,11 +17,7 @@ pipeline {
 
     stages {
         stage('Lint') {
-            when {
-                branch "feature"
-            }
             steps {
-                
                 sh 'echo "lint by hadolint"'
                 sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
             }
