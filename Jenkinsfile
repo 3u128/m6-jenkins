@@ -17,9 +17,13 @@ pipeline {
 
     stages {
         stage('Lint') {
+            when {
+                branch "feature"
+            }
             steps {
+                
                 sh 'echo "lint by hadolint"'
-                //sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
+                sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
             }
             post {
                 success {
@@ -40,7 +44,7 @@ pipeline {
 
  
                 failure {
-                  sh 'echo failed'
+                  sh 'echo lint failed'
                 }
             }
         }
