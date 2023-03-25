@@ -6,8 +6,8 @@ pipeline {
         GITHUB_OWNER = "3u128"
         REPO = "m6-jenkins"
         BRANCH = "dev"
-        // CREDS_REPO = credentials('m6-github-secret')
-        TOKEN = credentials("github-secret-m6")
+        CREDS_REPO = credentials('m6-github-secret')
+        //TOKEN = credentials("github-secret-m6")
         // SLACK_CHANNEL = "#deployment-notifications"
         // SLACK_TEAM_DOMAIN = "MY-SLACK-TEAM"
         // SLACK_TOKEN = credentials("slack_token")
@@ -25,7 +25,7 @@ pipeline {
                     sh """
                     curl --request POST \
                     --url https://api.github.com/repos/3u128/m6-jenkins/merges \
-                    --header 'authorization: token ${TOKEN}' \
+                    --header 'authorization: token ${CREDS_REPO}' \
                     --header 'content-type: application/json' \
                     --data '{
                       "base": "main",
