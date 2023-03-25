@@ -5,8 +5,9 @@ pipeline {
     environment {
         GITHUB_OWNER = "3u128"
         REPO = "m6-jenkins"
-        BRANCH = "dev"
-        CREDS_REPO = credentials('m6-github-secret')
+        BASE = "main"
+        HEAD = "feature"
+        PRIVATE_TOKEN = credentials('m6-github-secret')
         //TOKEN = credentials("github-secret-m6")
         // SLACK_CHANNEL = "#deployment-notifications"
         // SLACK_TEAM_DOMAIN = "MY-SLACK-TEAM"
@@ -15,25 +16,26 @@ pipeline {
     }
 
     stages {
-        stage('Build') {
+        stage('Lint') {
             steps {
-                sh 'echo "Hello World"'
-                // sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
+                sh 'echo "lint by hadolint"'
+                sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
             }
             post {
                 success {
+
                     sh """
                     curl --request POST \
-                    --url https://api.github.com/repos/3u128/m6-jenkins/merges \
-                    --header 'authorization: token ${CREDS_REPO}' \
+                    --url https://api.github.com/repos/${GITHUB_OWNER}/${REPO}/merges \
+                    --header 'authorization: token ${PRIVATE_TOKEN}' \
                     --header 'content-type: application/json' \
                     --data '{
-                      "base": "main",
-                      "head": "dev",
+                      "base": "${BASE}",
+                      "head": "${HEAD}",
                       "commit_message": "curl merge"
                     }'
                     """
-                    sh 'echo "YAY!"'
+                    sh 'echo curl merge from ${HEAD} to ${BASE}'
                   }
 
  
