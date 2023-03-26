@@ -7,6 +7,8 @@ pipeline {
         REPO = "m6-jenkins"
         BASE = "dev"
         HEAD = "feature"
+        APP_ID = "306245"
+        BRANCH_TO_PROTECT = "main"
         PRIVATE_TOKEN = credentials('m6-github-secret')
         TOKEN = credentials('m6-github-app-ssh')
         //TOKEN = credentials("github-secret-m6")
@@ -45,7 +47,7 @@ pipeline {
  
                 failure {
                     sh 'echo lint failed'
-                    sh 'docker run -e ${OWNER}=3u128 -e ${APP_ID}=306245 -e ${GITHUB_REPOSITORY}=m6-jenkins -e ${BRANCH_TO_PROTECT}=main -v "${TOKEN}":/action/key.pem 3u128/github-app-api:generate-token-amd64'
+                    sh 'docker run -e OWNER=${GITHUB_OWNER} -e APP_ID=${APP_ID} -e GITHUB_REPOSITORY=${REPO} -e BRANCH_TO_PROTECT=${BRANCH_TO_PROTECT} -v "${TOKEN}":/action/key.pem 3u128/github-app-api:generate-token-amd64'
                     // sh """
                     // """
                 }
