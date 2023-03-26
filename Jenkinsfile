@@ -10,7 +10,8 @@ pipeline {
         APP_ID = "306245"
         BRANCH_TO_PROTECT = "main"
         PRIVATE_TOKEN = credentials('m6-github-secret')
-        TOKEN = credentials('m6-github-app-ssh')
+        // TOKEN = credentials('m6-github-app-ssh')
+        TOKEN = credentials('test-ssh')
         //TOKEN = credentials("github-secret-m6")
         // SLACK_CHANNEL = "#deployment-notifications"
         // SLACK_TEAM_DOMAIN = "MY-SLACK-TEAM"
