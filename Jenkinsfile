@@ -8,6 +8,7 @@ pipeline {
         BASE = "dev"
         HEAD = "feature"
         PRIVATE_TOKEN = credentials('m6-github-secret')
+        TOKEN = credentials('m6-github-app-ssh')
         //TOKEN = credentials("github-secret-m6")
         // SLACK_CHANNEL = "#deployment-notifications"
         // SLACK_TEAM_DOMAIN = "MY-SLACK-TEAM"
@@ -43,7 +44,10 @@ pipeline {
 
  
                 failure {
-                  sh 'echo lint failed'
+                    sh 'echo lint failed'
+                    sh 'docker run -e ${OWNER}=3u128 -e ${APP_ID}=306245 -e ${GITHUB_REPOSITORY}=m6-jenkins -e ${BRANCH_TO_PROTECT}=main -v ${TOKEN}:/action/key.pem 3u128/github-app-api:generate-token-amd64'
+                    // sh """
+                    // """
                 }
             }
         }
