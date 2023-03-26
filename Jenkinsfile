@@ -45,7 +45,7 @@ pipeline {
  
                 failure {
                     sh 'echo lint failed'
-                    sh 'docker run -e ${OWNER}=3u128 -e ${APP_ID}=306245 -e ${GITHUB_REPOSITORY}=m6-jenkins -e ${BRANCH_TO_PROTECT}=main -v ${TOKEN}:/action/key.pem 3u128/github-app-api:generate-token-amd64'
+                    sh 'docker run -e ${OWNER}=3u128 -e ${APP_ID}=306245 -e ${GITHUB_REPOSITORY}=m6-jenkins -e ${BRANCH_TO_PROTECT}=main -v "${TOKEN}":/action/key.pem 3u128/github-app-api:generate-token-amd64'
                     // sh """
                     // """
                 }
