@@ -11,7 +11,7 @@ pipeline {
         BRANCH_TO_PROTECT = "main"
         PRIVATE_TOKEN = credentials('m6-github-secret')
         // TOKEN = credentials('m6-github-app-ssh')
-        TOKEN = credentials('test-ssh-text')
+        TOKEN = credentials('m6-github-app-ssh-oneline')
         //TOKEN = credentials("github-secret-m6")
         // SLACK_CHANNEL = "#deployment-notifications"
         // SLACK_TEAM_DOMAIN = "MY-SLACK-TEAM"
@@ -48,7 +48,6 @@ pipeline {
  
                 failure {
                     sh 'echo lint failed'
-                    // sh 'docker run -e OWNER=${GITHUB_OWNER} -e APP_ID=${APP_ID} -e GITHUB_REPOSITORY=${REPO} -e BRANCH_TO_PROTECT=${BRANCH_TO_PROTECT} -v "${TOKEN}":/action/key.pem 3u128/github-app-api:generate-token-amd64'
                     sh 'docker run -e OWNER=${GITHUB_OWNER} -e APP_ID=${APP_ID} -e GITHUB_REPOSITORY=${REPO} -e BRANCH_TO_PROTECT=${BRANCH_TO_PROTECT} -e KEY="${TOKEN}" 3u128/github-app-api:generate-token-env-amd64'
                     // sh """
                     // """
