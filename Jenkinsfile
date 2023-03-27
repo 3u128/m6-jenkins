@@ -10,6 +10,7 @@ pipeline {
     environment {
         GITHUB_OWNER = "3u128"
         REPO = "m6-jenkins"
+        GITHUB_REPOSITORY = "m6-jenkins"
         BASE = "dev"
         HEAD = "feature"
         APP_ID = "306245"
