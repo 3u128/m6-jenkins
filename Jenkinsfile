@@ -1,6 +1,6 @@
 properties([pipelineTriggers([githubPush()])])
 pipeline {
-    // agent { node { label 'linux_oci' } }
+    agent { node { label 'linux_oci' } }
     // agent {
     //     docker {
     //         image '3u128/github-app-api:generate-token-env-amd64'
@@ -8,14 +8,7 @@ pipeline {
     //     }
     // }
 
-    node('linux_oci') {
-    def token = docker.image('3u128/github-app-api:generate-token-env-amd64')
-    token.pull() // make sure we have the latest available from Docker Hub
-    token.inside {
-        // …as above
-        sh 'echo hello'
-    }
-    }
+
     environment {
         GITHUB_OWNER = "3u128"
         REPO = "m6-jenkins"
@@ -63,6 +56,15 @@ pipeline {
  
                 failure {
                     sh 'echo lint failed'
+                    node('linux_oci') {
+                    def token = docker.image('3u128/github-app-api:generate-token-env-amd64')
+                    token.pull() // make sure we have the latest available from Docker Hub
+                    token.inside { c ->
+                        // …as above
+                        sh 'echo hello'
+                        sh "docker logs ${c.id}"
+                    }
+                    }
                     // docker.image('3u128/github-app-api:generate-token-env-amd64').withRun('-e "KEY=${TOKEN}"' + ' OWNER="${GITHUB_OWNER}"' + ' -e APP_ID="${APP_ID}"' + ' GITHUB_REPOSITORY="${REPO}"') {
                     // }    
                     // withCredentials([string(credentialsId: 'm6-github-app-ssh-oneline', variable: 'TOKEN')]) {
