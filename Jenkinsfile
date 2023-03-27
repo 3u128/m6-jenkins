@@ -50,7 +50,7 @@ pipeline {
                     sh 'echo lint failed'
                     sh 'pwd'
                     sh 'ls'
-                    withCredentials([sshUserPrivateKey(credentialsId: 'm6-github-app-ssh', variable: 'TOKEN')]) {
+                    withCredentials([sshUserPrivateKey(credentialsId: 'm6-github-app-ssh-key', variable: 'TOKEN')]) {
                         sh './github-app-jwt.sh'
                         sh 'pwd'
                         sh 'ls'
