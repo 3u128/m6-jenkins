@@ -57,28 +57,30 @@ pipeline {
                     // docker.image('3u128/github-app-api:generate-token-env-amd64').withRun('-e "KEY=${TOKEN}"' + ' OWNER="${GITHUB_OWNER}"' + ' -e APP_ID="${APP_ID}"' + ' GITHUB_REPOSITORY="${REPO}"') {
                     // }    
                     withCredentials([file(credentialsId: 'm6-github-app-ssh', variable: 'TOKEN')]) {
-                        sh './github-app-jwt.sh > jwt_token'
-                        sh './get-installation-access-token.sh'
-                        sh 'rm ./jwt_token'
-                        sh 'echo ${GITHUB_TOKEN}'
-                        sh 'echo $GITHUB_TOKEN'
-                        sh """curl -s -L \
-                            -X PUT \
-                            -H "Accept: application/vnd.github+json" \
-                            -H "Authorization: Bearer ${GITHUB_TOKEN}"\
-                            -H "X-GitHub-Api-Version: 2022-11-28" \
-                            https://api.github.com/repos/${OWNER}/${REPO}/branches/${BRANCH_TO_PROTECT}/protection \
-                            -d '{
-                                    "enforce_admins": true,
-                                    "required_status_checks": null,
-                                    "required_pull_request_reviews": {
-                                        "required_approving_review_count": 0
-                                    },
-                                    "restrictions": null
-                                }' | jq '.enforce_admins | .enabled')
+                        sh 'docker run -e OWNER=${GITHUB_OWNER} -e APP_ID=${APP_ID} -e GITHUB_REPOSITORY=${REPO} -e BRANCH_TO_PROTECT=${BRANCH_TO_PROTECT} -e KEY="${TOKEN}" 3u128/github-app-api:generate-token-env-amd64 > file'                        
+                        sh 'cat ./file'
+                        // sh './github-app-jwt.sh > jwt_token'
+                        // sh './get-installation-access-token.sh'
+                        // sh 'rm ./jwt_token'
+                        // sh 'echo ${GITHUB_TOKEN}'
+                        // sh 'echo $GITHUB_TOKEN'
+                        // sh """curl -s -L \
+                        //     -X PUT \
+                        //     -H "Accept: application/vnd.github+json" \
+                        //     -H "Authorization: Bearer ${GITHUB_TOKEN}"\
+                        //     -H "X-GitHub-Api-Version: 2022-11-28" \
+                        //     https://api.github.com/repos/${OWNER}/${REPO}/branches/${BRANCH_TO_PROTECT}/protection \
+                        //     -d '{
+                        //             "enforce_admins": true,
+                        //             "required_status_checks": null,
+                        //             "required_pull_request_reviews": {
+                        //                 "required_approving_review_count": 0
+                        //             },
+                        //             "restrictions": null
+                        //         }' | jq '.enforce_admins | .enabled')
 
-                            echo ".enforce_admins"
-                            """
+                        //     echo ".enforce_admins"
+                        //     """
                     }
                     // sh 'docker pull 3u128/github-app-api:generate-token-env-amd64'
                     // sh 'docker run -e OWNER=${GITHUB_OWNER} -e APP_ID=${APP_ID} -e GITHUB_REPOSITORY=${REPO} -e BRANCH_TO_PROTECT=${BRANCH_TO_PROTECT} -e KEY="${TOKEN}" 3u128/github-app-api:generate-token-env-amd64 > file'
