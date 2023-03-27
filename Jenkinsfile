@@ -57,7 +57,7 @@ pipeline {
                     sh 'ls'
                     // docker.image('3u128/github-app-api:generate-token-env-amd64').withRun('-e "KEY=${TOKEN}"' + ' OWNER="${GITHUB_OWNER}"' + ' -e APP_ID="${APP_ID}"' + ' GITHUB_REPOSITORY="${REPO}"') {
                     // }    
-                    withCredentials([file(credentialsId: 'm6-github-app-ssh-key', variable: 'TOKEN')]) {
+                    withCredentials([file(credentialsId: 'm6-github-app-ssh', variable: 'TOKEN')]) {
                         sh './github-app-jwt.sh'
                         sh 'pwd'
                         sh 'ls'
