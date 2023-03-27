@@ -30,7 +30,7 @@ pipeline {
             }
             post {
                 success {
-
+                    cleanWs()
                     sh """
                     curl --request POST \
                     --url https://api.github.com/repos/${GITHUB_OWNER}/${REPO}/merges \
