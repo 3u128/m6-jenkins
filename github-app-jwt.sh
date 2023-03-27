@@ -14,7 +14,6 @@
 
 # Change these variables:
 app_id="${APP_ID}"
-
 app_private_key= "${TOKEN}"
 
 # "$(< $thisdir/app.key)"
