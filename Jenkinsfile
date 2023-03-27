@@ -1,11 +1,20 @@
 properties([pipelineTriggers([githubPush()])])
 pipeline {
     // agent { node { label 'linux_oci' } }
-    agent {
-        docker {
-            image '3u128/github-app-api:generate-token-env-amd64'
-            label 'linux_oci'
-        }
+    // agent {
+    //     docker {
+    //         image '3u128/github-app-api:generate-token-env-amd64'
+    //         label 'linux_oci'
+    //     }
+    // }
+
+    node('linux_oci') {
+    def token = docker.image('3u128/github-app-api:generate-token-env-amd64')
+    token.pull() // make sure we have the latest available from Docker Hub
+    token.inside {
+        // …as above
+        sh 'echo hello'
+    }
     }
     environment {
         GITHUB_OWNER = "3u128"
