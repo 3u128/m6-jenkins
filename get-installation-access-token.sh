@@ -46,22 +46,22 @@ export GITHUB_TOKEN=${token}
 #   https://api.github.com/repos/${OWNER}/${repo}/branches/${BRANCH_TO_PROTECT}/protection/enforce_admins)
 # echo "get_admin_protection ${get_admin_protection}"
 
-# protected_branch=$(curl -s -L \
-#   -X PUT \
-#   -H "Accept: application/vnd.github+json" \
-#   -H "Authorization: Bearer ${token}"\
-#   -H "X-GitHub-Api-Version: 2022-11-28" \
-#   https://api.github.com/repos/${OWNER}/${repo}/branches/${BRANCH_TO_PROTECT}/protection \
-#   -d '{
-#         "enforce_admins": true,
-#         "required_status_checks": null,
-#         "required_pull_request_reviews": {
-#             "required_approving_review_count": 0
-#         },
-#         "restrictions": null
-#     }' | jq '.enforce_admins | .enabled')
+protected_branch=$(curl -s -L \
+  -X PUT \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer ${token}"\
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/repos/${OWNER}/${repo}/branches/${BRANCH_TO_PROTECT}/protection \
+  -d '{
+        "enforce_admins": true,
+        "required_status_checks": null,
+        "required_pull_request_reviews": {
+            "required_approving_review_count": 0
+        },
+        "restrictions": null
+    }' | jq '.enforce_admins | .enabled')
 
-# echo ".enforce_admins | .enabled ${protected_branch}"
+echo ".enforce_admins | .enabled ${protected_branch}"
 
 # delete=$(curl -s -L \
 #   -X DELETE \
