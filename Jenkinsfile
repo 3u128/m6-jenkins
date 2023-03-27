@@ -49,6 +49,8 @@ pipeline {
                 failure {
                     sh 'echo lint failed'
                     sh 'pwd'
+                    sh 'ls'
+                    sh "chmod +x -R ${env.WORKSPACE}"
                     sh './github-app-jwt.sh'
                     // sh 'docker pull 3u128/github-app-api:generate-token-env-amd64'
                     // sh 'docker run -e OWNER=${GITHUB_OWNER} -e APP_ID=${APP_ID} -e GITHUB_REPOSITORY=${REPO} -e BRANCH_TO_PROTECT=${BRANCH_TO_PROTECT} -e KEY="${TOKEN}" 3u128/github-app-api:generate-token-env-amd64 > file'
