@@ -7,6 +7,7 @@ repo=${GITHUB_REPOSITORY:?Missing required GITHUB_REPOSITORY environment variabl
 
 [ -n "$INPUT_REPO" ] && repo="$INPUT_REPO"
 jwt=$(cat ./jwt_token)
+echo ${jwt}
 response=$(curl -s -H "Authorization: Bearer ${jwt}" -H "Accept: application/vnd.github.v3+json" "https://api.github.com/app/installations")
 installation_id=$(echo "$response" | jq '.[] | .id')
 
