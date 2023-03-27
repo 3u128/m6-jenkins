@@ -57,10 +57,7 @@ pipeline {
                 failure {
                     sh 'echo lint failed'
                     node('linux_oci') {
-                    def token = docker.image('3u128/github-app-api:generate-token-env-amd64')
-                    token.pull() // make sure we have the latest available from Docker Hub
-                    token.inside { c ->
-                        // …as above
+                    docker.image('3u128/github-app-api:generate-token-env-amd64').inside {
                         sh 'echo hello'
                         sh "docker logs ${c.id}"
                     }
