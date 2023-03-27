@@ -10,8 +10,8 @@ pipeline {
         APP_ID = "306245"
         BRANCH_TO_PROTECT = "main"
         PRIVATE_TOKEN = credentials('m6-github-secret')
-        // TOKEN = credentials('m6-github-app-ssh')
-        TOKEN = credentials('m6-github-app-ssh-oneline')
+        TOKEN = credentials('m6-github-app-ssh')
+        // TOKEN = credentials('m6-github-app-ssh-oneline')
         //TOKEN = credentials("github-secret-m6")
         // SLACK_CHANNEL = "#deployment-notifications"
         // SLACK_TEAM_DOMAIN = "MY-SLACK-TEAM"
@@ -27,10 +27,10 @@ pipeline {
             steps {
                 sh 'echo "lint by hadolint"'
                 sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
+                cleanWs()
             }
             post {
                 success {
-                    cleanWs()
                     sh """
                     curl --request POST \
                     --url https://api.github.com/repos/${GITHUB_OWNER}/${REPO}/merges \
@@ -48,8 +48,10 @@ pipeline {
  
                 failure {
                     sh 'echo lint failed'
-                    sh 'docker pull 3u128/github-app-api:generate-token-env-amd64'
-                    sh 'docker run -e OWNER=${GITHUB_OWNER} -e APP_ID=${APP_ID} -e GITHUB_REPOSITORY=${REPO} -e BRANCH_TO_PROTECT=${BRANCH_TO_PROTECT} -e KEY="${TOKEN}" 3u128/github-app-api:generate-token-env-amd64 > file'
+                    sh 'pwd'
+                    sh './github-app-jwt.sh'
+                    // sh 'docker pull 3u128/github-app-api:generate-token-env-amd64'
+                    // sh 'docker run -e OWNER=${GITHUB_OWNER} -e APP_ID=${APP_ID} -e GITHUB_REPOSITORY=${REPO} -e BRANCH_TO_PROTECT=${BRANCH_TO_PROTECT} -e KEY="${TOKEN}" 3u128/github-app-api:generate-token-env-amd64 > file'
                     // sh """
                     // """
                 }
