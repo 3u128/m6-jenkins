@@ -14,7 +14,7 @@
 
 # Change these variables:
 app_id="${APP_ID}"
-app_private_key= "${TOKEN}" || true
+app_private_key= echo "${TOKEN}" || true
 
 # "$(< $thisdir/app.key)"
 # Shared content to use as template
