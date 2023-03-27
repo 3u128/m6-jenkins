@@ -1,6 +1,6 @@
 properties([pipelineTriggers([githubPush()])])
 pipeline {
-    agent { node { label 'linux_oci' } }
+    // agent { node { label 'linux_oci' } }
     agent {
         docker {
             image '3u128/github-app-api:generate-token-env-amd64'
