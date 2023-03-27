@@ -10,10 +10,11 @@
 #   https://stackoverflow.com/questions/46657001/how-do-you-create-an-rs256-jwt-assertion-with-bash-shell-scripting
 
 # thisdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-set -o pipefail
+# set -o pipefail
 
 # Change these variables:
 app_id="${APP_ID}"
+
 app_private_key= "${TOKEN}"
 
 # "$(< $thisdir/app.key)"
