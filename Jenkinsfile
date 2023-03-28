@@ -85,7 +85,8 @@ pipeline {
                                 }' | jq '.enforce_admins | .enabled'
                             '''
                     }
-                    slackSend color: "danger", message: "$GIT_COMMIT"
+                    slackSend color: "danger", message: "Job name: $JOB_NAME\n Branch name: $BRANCH_NAME\n Git commit: $GIT_COMMIT\n \
+                                                        Node name: $NODE_NAME\n Build number: $BUILD_NUMBER"
                     // docker.image('3u128/github-app-api:generate-token-env-amd64').withRun('-e "KEY=${TOKEN}"' + ' OWNER="${GITHUB_OWNER}"' + ' -e APP_ID="${APP_ID}"' + ' GITHUB_REPOSITORY="${REPO}"') {
                     // }    
                     // withCredentials([string(credentialsId: 'm6-github-app-ssh-oneline', variable: 'TOKEN')]) {
