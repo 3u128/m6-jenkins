@@ -119,6 +119,11 @@ pipeline {
                 steps {
                     sh 'echo "main"'
                 }
+                post {
+                    always {
+                        slackSend color: "warning", message: "changes in main"
+                    }
+                }
             }
     }
 }
