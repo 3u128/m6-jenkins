@@ -42,8 +42,7 @@ pipeline {
                         "base": "dev",
                         "head": "feature",
                         "commit_message": "curl merge"
-                        }' | jq ('.message ')
-                        Merge conflict
+                        }'
                         echo curl merge from $HEAD to $BASE
                         '''
                     slackSend color: "good", message: "Job name: $JOB_NAME\n Branch name: $BRANCH_NAME\n Git commit: $GIT_COMMIT\n Node labels: $NODE_LABELS\n Build number: $BUILD_NUMBER"
