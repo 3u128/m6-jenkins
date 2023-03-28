@@ -15,7 +15,7 @@ pipeline {
         GITHUB_REPOSITORY = "m6-jenkins"
         BASE = "dev"
         HEAD = "feature"
-        APP_ID = "306245"
+        // APP_ID = "306245"
         BRANCH_TO_PROTECT = "main"
         // PRIVATE_TOKEN = credentials('m6-github-secret')
         // TOKEN = credentials('m6-github-app-ssh')
@@ -56,11 +56,24 @@ pipeline {
  
                 failure {
                     sh 'echo lint failed'
-                    node('linux_oci') {
-                    docker.image('3u128/github-app-api:generate-token-env-amd64').inside {
-                        sh 'echo hello'
-                        sh "docker logs ${c.id}"
-                    }
+                    withCredentials([usernamePassword(credentialsId: 'm6-github-app',
+                                                    usernameVariable: 'GITHUB_APP',
+                                                    passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
+                        sh """curl -s -L \
+                            -X PUT \
+                            -H "Accept: application/vnd.github+json" \
+                            -H "Authorization: Bearer ${GITHUB_ACCESS_TOKEN}"\
+                            -H "X-GitHub-Api-Version: 2022-11-28" \
+                            https://api.github.com/repos/${GITHUB_OWNER}/${REPO}/branches/${BRANCH_TO_PROTECT}/protection \
+                            -d '{
+                                    "enforce_admins": true,
+                                    "required_status_checks": null,
+                                    "required_pull_request_reviews": {
+                                        "required_approving_review_count": 0
+                                    },
+                                    "restrictions": null
+                                }' | jq '.enforce_admins | .enabled')
+                            """
                     }
                     // docker.image('3u128/github-app-api:generate-token-env-amd64').withRun('-e "KEY=${TOKEN}"' + ' OWNER="${GITHUB_OWNER}"' + ' -e APP_ID="${APP_ID}"' + ' GITHUB_REPOSITORY="${REPO}"') {
                     // }    
