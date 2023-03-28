@@ -50,19 +50,31 @@ pipeline {
                         https://api.github.com/repos/$GITHUB_OWNER/$REPO/branches/$BRANCH_TO_PROTECT/protection
 
                         echo "Delete branch $BRANCH_TO_PROTECT"
+
+                        curl --request POST \
+                        --url https://api.github.com/repos/$GITHUB_OWNER/$REPO/merges \
+                        --header 'authorization: token $GITHUB_ACCESS_TOKEN' \
+                        --header 'content-type: application/json' \
+                        --data '{
+                        "base": "$BASE",
+                        "head": "$HEAD",
+                        "commit_message": "curl merge"
+                        }'
+
                         '''
                     }
-                    sh """
-                    curl --request POST \
-                    --url https://api.github.com/repos/${GITHUB_OWNER}/${REPO}/merges \
-                    --header 'authorization: token $GITHUB_ACCESS_TOKEN' \
-                    --header 'content-type: application/json' \
-                    --data '{
-                      "base": "${BASE}",
-                      "head": "${HEAD}",
-                      "commit_message": "curl merge"
-                    }'
-                    """
+
+                    // sh """
+                    // curl --request POST \
+                    // --url https://api.github.com/repos/${GITHUB_OWNER}/${REPO}/merges \
+                    // --header 'authorization: token $GITHUB_ACCESS_TOKEN' \
+                    // --header 'content-type: application/json' \
+                    // --data '{
+                    //   "base": "${BASE}",
+                    //   "head": "${HEAD}",
+                    //   "commit_message": "curl merge"
+                    // }'
+                    // """
                     sh 'echo curl merge from ${HEAD} to ${BASE}'
                   }
 
