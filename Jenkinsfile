@@ -65,6 +65,7 @@ pipeline {
 
                         echo curl merge from $HEAD to $BASE
                         '''
+                        slackSend color: "good", message: "Message from Jenkins Pipeline"
                     }
 
                     // sh """
