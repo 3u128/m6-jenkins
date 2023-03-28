@@ -1,30 +1,12 @@
 properties([pipelineTriggers([githubPush()])])
 pipeline {
     agent { node { label 'linux_oci' } }
-    // agent {
-    //     docker {
-    //         image '3u128/github-app-api:generate-token-env-amd64'
-    //         label 'linux_oci'
-    //     }
-    // }
-
-
     environment {
         GITHUB_OWNER = "3u128"
         REPO = "m6-jenkins"
-        GITHUB_REPOSITORY = "m6-jenkins"
         BASE = "dev"
         HEAD = "feature"
-        // APP_ID = "306245"
         BRANCH_TO_PROTECT = "main"
-        // PRIVATE_TOKEN = credentials('m6-github-secret')
-        // TOKEN = credentials('m6-github-app-ssh')
-        // TOKEN = credentials('m6-github-app-ssh-oneline')
-        // TOKEN = credentials("github-secret-m6")
-        // SLACK_CHANNEL = "#deployment-notifications"
-        // SLACK_TEAM_DOMAIN = "MY-SLACK-TEAM"
-        // SLACK_TOKEN = credentials("slack_token")
-        // DEPLOY_URL = "https://deployment.example.com/"
     }
 
     stages {
@@ -35,7 +17,6 @@ pipeline {
             steps {
                 sh 'echo "lint by hadolint"'
                 sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
-                // cleanWs()
             }
             post {
                 success {
@@ -65,7 +46,7 @@ pipeline {
 
                         echo curl merge from $HEAD to $BASE
                         '''
-                        slackSend color: "good", message: "Message from Jenkins Pipeline"
+                        slackSend color: "good", message: "$GIT_COMMIT"
                     }
 
                     // sh """
@@ -104,6 +85,7 @@ pipeline {
                                 }' | jq '.enforce_admins | .enabled'
                             '''
                     }
+                    slackSend color: "danger", message: "$GIT_COMMIT"
                     // docker.image('3u128/github-app-api:generate-token-env-amd64').withRun('-e "KEY=${TOKEN}"' + ' OWNER="${GITHUB_OWNER}"' + ' -e APP_ID="${APP_ID}"' + ' GITHUB_REPOSITORY="${REPO}"') {
                     // }    
                     // withCredentials([string(credentialsId: 'm6-github-app-ssh-oneline', variable: 'TOKEN')]) {
