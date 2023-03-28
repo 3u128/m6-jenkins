@@ -39,10 +39,23 @@ pipeline {
             }
             post {
                 success {
+                    withCredentials([usernamePassword(credentialsId: 'm6-github-app',
+                                                    usernameVariable: 'GITHUB_APP',
+                                                    passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
+                    sh '''curl -s -L \
+                        -X DELETE \
+                        -H "Accept: application/vnd.github+json" \
+                        -H "Authorization: Bearer ${token}"\
+                        -H "X-GitHub-Api-Version: 2022-11-28" \
+                        https://api.github.com/repos/$GITHUB_OWNER/$REPO/branches/$BRANCH_TO_PROTECT/protection)
+
+                        echo "Delete branch $BRANCH_TO_PROTECT"
+                        '''
+                    }
                     sh """
                     curl --request POST \
                     --url https://api.github.com/repos/${GITHUB_OWNER}/${REPO}/merges \
-                    --header 'authorization: token ${PRIVATE_TOKEN}' \
+                    --header 'authorization: token $GITHUB_ACCESS_TOKEN' \
                     --header 'content-type: application/json' \
                     --data '{
                       "base": "${BASE}",
