@@ -46,7 +46,7 @@ pipeline {
 
                         echo curl merge from $HEAD to $BASE
                         '''
-                    slackSend color: "good", message: "Job name: $JOB_NAME\n Branch name: $BRANCH_NAME\n Git commit: $GIT_COMMIT\n Node labels: $NODE_LABELS\n Build number: $BUILD_NUMBER\n Comitter: $GIT_COMMITTER_NAME"
+                    slackSend color: "good", message: "Job name: $JOB_NAME\n Branch name: $BRANCH_NAME\n Git commit: $GIT_COMMIT\n Node labels: $NODE_LABELS\n Build number: $BUILD_NUMBER\n Committer: $GIT_COMMITTER_NAME"
                     }
                   }
 
