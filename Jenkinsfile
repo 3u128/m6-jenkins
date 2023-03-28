@@ -58,8 +58,8 @@ pipeline {
                         -H "X-GitHub-Api-Version: 2022-11-28" \
                         https://api.github.com/repos/$GITHUB_OWNER/$REPO/merges \
                         --data '{
-                        "base": "$BASE",
-                        "head": "$HEAD",
+                        "base": "dev",
+                        "head": "feature",
                         "commit_message": "curl merge"
                         }'
 
@@ -78,7 +78,7 @@ pipeline {
                     //   "commit_message": "curl merge"
                     // }'
                     // """
-                    sh 'echo curl merge from ${HEAD} to ${BASE}'
+                    // sh 'echo curl merge from ${HEAD} to ${BASE}'
                   }
 
  
