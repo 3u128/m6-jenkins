@@ -4,8 +4,8 @@ pipeline {
     environment {
         GITHUB_OWNER = "3u128"
         REPO = "m6-jenkins"
-        BASE = "dev"
-        HEAD = "feature"
+        BASE = "main"
+        HEAD = "dev"
         BRANCH_TO_PROTECT = "main"
     }
 
@@ -90,6 +90,7 @@ pipeline {
  
                 failure {
                   sh 'echo lint failed'
+                  slackSend color: "danger", message: "Job name: $JOB_NAME\n Branch name: $BRANCH_NAME\n Git commit: $GIT_COMMIT\n Node labels: $NODE_LABELS\n Build number: $BUILD_NUMBER"
                 }
             }
         }
