@@ -47,7 +47,7 @@ pipeline {
                         -H "Accept: application/vnd.github+json" \
                         -H "Authorization: Bearer ${token}"\
                         -H "X-GitHub-Api-Version: 2022-11-28" \
-                        https://api.github.com/repos/$GITHUB_OWNER/$REPO/branches/$BRANCH_TO_PROTECT/protection)
+                        https://api.github.com/repos/$GITHUB_OWNER/$REPO/branches/$BRANCH_TO_PROTECT/protection
 
                         echo "Delete branch $BRANCH_TO_PROTECT"
                         '''
