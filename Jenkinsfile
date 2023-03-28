@@ -92,5 +92,12 @@ pipeline {
                 }
             }
         }
+    stage('main') {
+            when {
+                branch "main"
+            }
+            steps {
+                sh 'echo "main"'
+            }
     }
 }
