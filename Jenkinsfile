@@ -51,15 +51,6 @@ pipeline {
 
                         echo "Delete branch $BRANCH_TO_PROTECT"
 
-                        curl --request POST \
-                        --url https://api.github.com/repos/$GITHUB_OWNER/$REPO/merges \
-                        --header 'authorization: token $GITHUB_ACCESS_TOKEN' \
-                        --header 'content-type: application/json' \
-                        --data '{
-                        "base": "$BASE",
-                        "head": "$HEAD",
-                        "commit_message": "curl merge"
-                        }'
                         curl -L \
                         -X POST \
                         -H "Accept: application/vnd.github+json" \
@@ -71,6 +62,8 @@ pipeline {
                         "head": "$HEAD",
                         "commit_message": "curl merge"
                         }'
+
+                        echo curl merge from $HEAD to $BASE
                         '''
                     }
 
