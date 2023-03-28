@@ -72,6 +72,7 @@ pipeline {
                                 }'
                             '''
                     }
+                    slackSend color: "danger", message: "Failure.\n Job name: $JOB_NAME\n Branch name: $BRANCH_NAME\n Git commit: $GIT_COMMIT\n Node labels: $NODE_LABELS\n Build number: $BUILD_NUMBER"
                 }
             }
         }
